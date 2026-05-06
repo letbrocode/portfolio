@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Developer | Portfolio</title>
+    <title>user@portfolio:~</title>
     <style>
         :root {
-            --bg: #0f172a;
-            --text: #f8fafc;
-            --text-dim: #94a3b8;
-            --accent: #38bdf8;
-            --border: #1e293b;
+            --bg: #050505;
+            --text: #d1d5db;
+            --dim: #6b7280;
+            --accent: #10b981;
+            --border: #1f2937;
+            --cursor: #10b981;
         }
 
         * {
@@ -22,121 +23,135 @@
         body {
             background-color: var(--bg);
             color: var(--text);
-            font-family: Inter, system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
+            font-family: "JetBrains Mono", "Fira Code", "SF Mono", Menlo, monospace;
+            line-height: 1.5;
+            padding: 2rem 1rem;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
-            padding: 4rem 1.5rem;
+        }
+
+        /* Terminal Prompt Decor */
+        .prompt::before {
+            content: "$ ";
+            color: var(--accent);
+        }
+
+        .path {
+            color: #3b82f6;
+            margin-right: 0.5rem;
         }
 
         header {
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
         h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.025em;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--accent);
+            display: inline-block;
         }
 
-        .subtitle {
-            color: var(--text-dim);
-            font-size: 1.125rem;
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background: var(--cursor);
+            margin-left: 4px;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
         }
 
         section {
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
         h2 {
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--accent);
+            font-size: 1rem;
+            color: var(--dim);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            display: inline-block;
+            padding-right: 2rem;
+        }
+
+        .content {
+            padding-left: 1.25rem;
+            border-left: 1px solid var(--border);
+        }
+
+        .project-item {
             margin-bottom: 1.5rem;
         }
 
-        .about p {
-            font-size: 1.125rem;
-            color: var(--text-dim);
-            max-width: 600px;
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.25rem;
         }
 
-        .projects {
-            display: grid;
-            gap: 2rem;
-        }
-
-        .project-card {
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1.5rem;
-            transition: opacity 0.2s;
-        }
-
-        .project-card:last-child {
-            border-bottom: none;
-        }
-
-        .project-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: block;
-            text-decoration: none;
+        .project-link {
             color: var(--text);
+            text-decoration: none;
+            font-weight: bold;
         }
 
-        .project-title:hover {
+        .project-link:hover {
             color: var(--accent);
+            text-decoration: underline;
         }
 
         .project-desc {
-            color: var(--text-dim);
-            margin-bottom: 1rem;
+            color: var(--dim);
+            font-size: 0.9rem;
         }
 
         .tags {
-            display: flex;
-            gap: 0.75rem;
-            font-family: monospace;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
+            color: var(--accent);
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        .contact-list {
+            list-style: none;
+        }
+
+        .contact-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-list a {
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .contact-list a:hover {
             color: var(--accent);
         }
 
-        .contact-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .contact-links a {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 500;
-            border-bottom: 1px solid var(--border);
-            transition: border-color 0.2s;
-        }
-
-        .contact-links a:hover {
-            border-color: var(--accent);
-        }
-
         footer {
-            margin-top: 8rem;
-            color: var(--text-dim);
-            font-size: 0.875rem;
+            margin-top: 6rem;
+            font-size: 0.8rem;
+            color: var(--dim);
+            text-align: center;
+        }
+
+        .cmd {
+            color: var(--accent);
         }
 
         @media (max-width: 640px) {
-            .container {
-                padding: 2rem 1rem;
-            }
-            h1 {
-                font-size: 2rem;
+            body {
+                padding: 1.5rem 1rem;
             }
         }
     </style>
@@ -144,54 +159,62 @@
 <body>
     <div class="container">
         <header>
-            <h1>Your Name</h1>
-            <p class="subtitle">Full-stack Developer & UI Designer</p>
+            <div class="prompt-line">
+                <span class="path">~</span><span class="cmd">whoami</span>
+            </div>
+            <h1>Your Name</h1><span class="cursor"></span>
+            <p style="color: var(--dim); margin-top: 0.5rem;">System Architect / Kernel Enthusiast</p>
         </header>
 
-        <section class="about">
-            <h2>About</h2>
-            <p>
-                I build clean, accessible, and performant web applications. 
-                Currently focused on creating minimalist experiences that solve complex problems.
-            </p>
-        </section>
-
         <section>
-            <h2>Selected Projects</h2>
-            <div class="projects">
-                <article class="project-card">
-                    <a href="#" class="project-title">Project One</a>
-                    <p class="project-desc">A brief description of the project and the problem it solves for users.</p>
-                    <div class="tags">
-                        <span>TypeScript</span>
-                        <span>React</span>
-                        <span>Node.js</span>
-                    </div>
-                </article>
-                <article class="project-card">
-                    <a href="#" class="project-title">Project Two</a>
-                    <p class="project-desc">Detailed explanation of the tech stack and unique features implemented.</p>
-                    <div class="tags">
-                        <span>Go</span>
-                        <span>PostgreSQL</span>
-                        <span>Docker</span>
-                    </div>
-                </article>
+            <h2>01. info.txt</h2>
+            <div class="content">
+                <p>Minimalist developer focused on low-level performance and clean abstractions. I prefer Vim, Linux, and writing code that lasts.</p>
             </div>
         </section>
 
         <section>
-            <h2>Connect</h2>
-            <div class="contact-links">
-                <a href="mailto:hello@example.com">Email</a>
-                <a href="https://github.com">GitHub</a>
-                <a href="https://linkedin.com">LinkedIn</a>
+            <h2>02. projects/</h2>
+            <div class="content">
+                <div class="project-item">
+                    <div class="project-header">
+                        <a href="#" class="project-link">lib-fast-io</a>
+                        <span style="color: var(--dim); font-size: 0.8rem;">[v1.0.4]</span>
+                    </div>
+                    <p class="project-desc">A high-performance C++ library for asynchronous file I/O operations.</p>
+                    <p class="tags">#cpp #linux #performance</p>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-header">
+                        <a href="#" class="project-link">dotfiles</a>
+                        <span style="color: var(--dim); font-size: 0.8rem;">[main]</span>
+                    </div>
+                    <p class="project-desc">My curated configuration for Neovim, Tmux, and Zsh.</p>
+                    <p class="tags">#lua #bash #config</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>03. contact/</h2>
+            <div class="content">
+                <ul class="contact-list">
+                    <li><span class="prompt"></span><a href="mailto:hello@example.com">email</a></li>
+                    <li><span class="prompt"></span><a href="https://github.com">github</a></li>
+                    <li><span class="prompt"></span><a href="https://linkedin.com">linkedin</a></li>
+                </ul>
             </div>
         </section>
 
         <footer>
-            <p>&copy; 2026 Your Name. Built with pure HTML/CSS.</p>
-        </footer>
+            <p>LAST_LOGIN: <span id="date"></span></p>
+            <p>Uptime: indefinite</p>
+        </section>
     </div>
+
+    <script>
+        document.getElementById('date').innerText = new Date().toUTCString();
+    </script>
 </body>
 </html>
