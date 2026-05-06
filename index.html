@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer | Portfolio</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --text: #f8fafc;
+            --text-dim: #94a3b8;
+            --accent: #38bdf8;
+            --border: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: Inter, system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        header {
+            margin-bottom: 4rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1.125rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .about p {
+            font-size: 1.125rem;
+            color: var(--text-dim);
+            max-width: 600px;
+        }
+
+        .projects {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .project-card {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1.5rem;
+            transition: opacity 0.2s;
+        }
+
+        .project-card:last-child {
+            border-bottom: none;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .project-title:hover {
+            color: var(--accent);
+        }
+
+        .project-desc {
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.75rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+            color: var(--accent);
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .contact-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+            transition: border-color 0.2s;
+        }
+
+        .contact-links a:hover {
+            border-color: var(--accent);
+        }
+
+        footer {
+            margin-top: 8rem;
+            color: var(--text-dim);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Your Name</h1>
+            <p class="subtitle">Full-stack Developer & UI Designer</p>
+        </header>
+
+        <section class="about">
+            <h2>About</h2>
+            <p>
+                I build clean, accessible, and performant web applications. 
+                Currently focused on creating minimalist experiences that solve complex problems.
+            </p>
+        </section>
+
+        <section>
+            <h2>Selected Projects</h2>
+            <div class="projects">
+                <article class="project-card">
+                    <a href="#" class="project-title">Project One</a>
+                    <p class="project-desc">A brief description of the project and the problem it solves for users.</p>
+                    <div class="tags">
+                        <span>TypeScript</span>
+                        <span>React</span>
+                        <span>Node.js</span>
+                    </div>
+                </article>
+                <article class="project-card">
+                    <a href="#" class="project-title">Project Two</a>
+                    <p class="project-desc">Detailed explanation of the tech stack and unique features implemented.</p>
+                    <div class="tags">
+                        <span>Go</span>
+                        <span>PostgreSQL</span>
+                        <span>Docker</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section>
+            <h2>Connect</h2>
+            <div class="contact-links">
+                <a href="mailto:hello@example.com">Email</a>
+                <a href="https://github.com">GitHub</a>
+                <a href="https://linkedin.com">LinkedIn</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Your Name. Built with pure HTML/CSS.</p>
+        </footer>
+    </div>
+</body>
+</html>
