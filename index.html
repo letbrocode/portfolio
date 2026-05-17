@@ -1,220 +1,479 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>user@portfolio:~</title>
     <style>
-        :root {
-            --bg: #050505;
-            --text: #d1d5db;
-            --dim: #6b7280;
-            --accent: #10b981;
-            --border: #1f2937;
-            --cursor: #10b981;
-        }
+      :root {
+        --bg: #050505;
+        --text: #d1d5db;
+        --dim: #6b7280;
+        --accent: #10b981;
+        --border: #1f2937;
+        --cursor: #10b981;
+        --window-bg: #0a0a0a;
+        --header-bg: #1a1a1a;
+      }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
+      body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: "JetBrains Mono", "Fira Code", "SF Mono", Menlo, monospace;
+        line-height: 1.5;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+
+      .terminal-window {
+        width: 100%;
+        max-width: 800px;
+        background-color: var(--window-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      }
+
+      .terminal-header {
+        background-color: var(--header-bg);
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .terminal-buttons {
+        display: flex;
+        gap: 8px;
+      }
+
+      .btn {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+
+      .btn-close {
+        background-color: #ff5f56;
+      }
+      .btn-min {
+        background-color: #ffbd2e;
+      }
+      .btn-max {
+        background-color: #27c93f;
+      }
+
+      .terminal-title {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 0.8rem;
+        color: var(--dim);
+        transform: translateX(-20px);
+      }
+
+      .terminal-body {
+        padding: 2.5rem;
+        max-height: 85vh;
+        overflow-y: auto;
+      }
+
+      /* Custom Scrollbar */
+      .terminal-body::-webkit-scrollbar {
+        width: 6px;
+      }
+      .terminal-body::-webkit-scrollbar-track {
+        background: var(--window-bg);
+      }
+      .terminal-body::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 3px;
+      }
+
+      /* Terminal Prompt Decor */
+      .prompt::before {
+        content: "$ ";
+        color: var(--accent);
+      }
+
+      .path {
+        color: #3b82f6;
+        margin-right: 0.5rem;
+      }
+
+      header {
+        margin-bottom: 3rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: var(--accent);
+        display: inline-block;
+      }
+
+      .cursor {
+        display: inline-block;
+        width: 8px;
+        height: 1.2em;
+        background: var(--cursor);
+        margin-left: 4px;
+        vertical-align: middle;
+        animation: blink 1s step-end infinite;
+      }
+
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      section {
+        margin-bottom: 3rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        color: var(--dim);
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+        display: inline-block;
+        padding-right: 2rem;
+      }
+
+      .content {
+        padding-left: 1.25rem;
+        border-left: 1px solid var(--border);
+      }
+
+      .project-item {
+        margin-bottom: 1.5rem;
+      }
+
+      .project-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 0.25rem;
+      }
+
+      .project-link {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .project-link:hover {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+
+      .project-desc {
+        color: var(--dim);
+        font-size: 0.9rem;
+      }
+
+      .tags {
+        font-size: 0.8rem;
+        color: var(--accent);
+        opacity: 0.8;
+        margin-top: 0.25rem;
+      }
+
+      .contact-list {
+        list-style: none;
+      }
+
+      .contact-list li {
+        margin-bottom: 0.5rem;
+      }
+
+      .contact-list a {
+        color: var(--text);
+        text-decoration: none;
+      }
+
+      .contact-list a:hover {
+        color: var(--accent);
+      }
+
+      footer {
+        margin-top: 4rem;
+        font-size: 0.8rem;
+        color: var(--dim);
+        text-align: center;
+      }
+
+      .cmd {
+        color: var(--accent);
+      }
+
+      @media (max-width: 640px) {
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: "JetBrains Mono", "Fira Code", "SF Mono", Menlo, monospace;
-            line-height: 1.5;
-            padding: 2rem 1rem;
+          padding: 0;
+          align-items: flex-start;
         }
-
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
+        .terminal-window {
+          height: 100vh;
+          border-radius: 0;
+          border: none;
         }
-
-        /* Terminal Prompt Decor */
-        .prompt::before {
-            content: "$ ";
-            color: var(--accent);
+        .terminal-body {
+          padding: 1.5rem 1rem;
+          max-height: calc(100vh - 40px);
         }
-
-        .path {
-            color: #3b82f6;
-            margin-right: 0.5rem;
+        .terminal-title {
+          display: none;
         }
-
-        header {
-            margin-bottom: 3rem;
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 500;
-            color: var(--accent);
-            display: inline-block;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 8px;
-            height: 1.2em;
-            background: var(--cursor);
-            margin-left: 4px;
-            vertical-align: middle;
-            animation: blink 1s step-end infinite;
-        }
-
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        section {
-            margin-bottom: 3rem;
-        }
-
-        h2 {
-            font-size: 1rem;
-            color: var(--dim);
-            margin-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-            display: inline-block;
-            padding-right: 2rem;
-        }
-
-        .content {
-            padding-left: 1.25rem;
-            border-left: 1px solid var(--border);
-        }
-
-        .project-item {
-            margin-bottom: 1.5rem;
-        }
-
-        .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 0.25rem;
-        }
-
-        .project-link {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .project-link:hover {
-            color: var(--accent);
-            text-decoration: underline;
-        }
-
-        .project-desc {
-            color: var(--dim);
-            font-size: 0.9rem;
-        }
-
-        .tags {
-            font-size: 0.8rem;
-            color: var(--accent);
-            opacity: 0.8;
-            margin-top: 0.25rem;
-        }
-
-        .contact-list {
-            list-style: none;
-        }
-
-        .contact-list li {
-            margin-bottom: 0.5rem;
-        }
-
-        .contact-list a {
-            color: var(--text);
-            text-decoration: none;
-        }
-
-        .contact-list a:hover {
-            color: var(--accent);
-        }
-
-        footer {
-            margin-top: 6rem;
-            font-size: 0.8rem;
-            color: var(--dim);
-            text-align: center;
-        }
-
-        .cmd {
-            color: var(--accent);
-        }
-
-        @media (max-width: 640px) {
-            body {
-                padding: 1.5rem 1rem;
-            }
-        }
+      }
     </style>
-</head>
-<body>
-    <div class="container">
+  </head>
+  <body>
+    <div class="terminal-window">
+      <div class="terminal-header">
+        <div class="terminal-buttons">
+          <div class="btn btn-close"></div>
+          <div class="btn btn-min"></div>
+          <div class="btn btn-max"></div>
+        </div>
+        <div class="terminal-title">pratik@portfolio: ~</div>
+      </div>
+      <div class="terminal-body">
         <header>
-            <div class="prompt-line">
-                <span class="path">~</span><span class="cmd">whoami</span>
-            </div>
-            <h1>Your Name</h1><span class="cursor"></span>
-            <p style="color: var(--dim); margin-top: 0.5rem;">System Architect / Kernel Enthusiast</p>
+          <div class="prompt-line">
+            <span class="path">~</span><span class="cmd">whoami</span>
+          </div>
+          <h1>Pratik Kamble</h1>
+          <span class="cursor"></span>
+          <p style="color: var(--dim); margin-top: 0.5rem">
+            Full-Stack Developer / Real-Time Systems / Genomic Tech
+          </p>
         </header>
 
         <section>
-            <h2>01. info.txt</h2>
-            <div class="content">
-                <p>Minimalist developer focused on low-level performance and clean abstractions. I prefer Vim, Linux, and writing code that lasts.</p>
-            </div>
+          <h2>01. info.txt</h2>
+          <div class="content">
+            <p>
+              Full-stack developer focused on building production-ready web
+              applications, real-time systems, and scalable backend
+              architectures. Experienced in genomic variant analysis and
+              municipal management platforms.
+            </p>
+          </div>
         </section>
 
         <section>
-            <h2>02. projects/</h2>
-            <div class="content">
-                <div class="project-item">
-                    <div class="project-header">
-                        <a href="#" class="project-link">lib-fast-io</a>
-                        <span style="color: var(--dim); font-size: 0.8rem;">[v1.0.4]</span>
-                    </div>
-                    <p class="project-desc">A high-performance C++ library for asynchronous file I/O operations.</p>
-                    <p class="tags">#cpp #linux #performance</p>
-                </div>
-
-                <div class="project-item">
-                    <div class="project-header">
-                        <a href="#" class="project-link">dotfiles</a>
-                        <span style="color: var(--dim); font-size: 0.8rem;">[main]</span>
-                    </div>
-                    <p class="project-desc">My curated configuration for Neovim, Tmux, and Zsh.</p>
-                    <p class="tags">#lua #bash #config</p>
-                </div>
-            </div>
+          <h2>02. tech_stack/</h2>
+          <div class="content">
+            <p>
+              <span class="prompt"></span
+              ><strong>Languages:</strong> TypeScript, JavaScript, Python, SQL
+            </p>
+            <p>
+              <span class="prompt"></span><strong>Frontend:</strong> React.js,
+              Next.js, Tailwind CSS, shadcn/ui
+            </p>
+            <p>
+              <span class="prompt"></span><strong>Backend:</strong> Node.js,
+              Express.js, Prisma ORM, REST APIs
+            </p>
+            <p>
+              <span class="prompt"></span
+              ><strong>Databases:</strong> PostgreSQL, MongoDB, Redis
+            </p>
+            <p>
+              <span class="prompt"></span><strong>DevOps:</strong> Docker, Git,
+              GitHub Actions, Vercel
+            </p>
+          </div>
         </section>
 
         <section>
-            <h2>03. contact/</h2>
-            <div class="content">
-                <ul class="contact-list">
-                    <li><span class="prompt"></span><a href="mailto:hello@example.com">email</a></li>
-                    <li><span class="prompt"></span><a href="https://github.com">github</a></li>
-                    <li><span class="prompt"></span><a href="https://linkedin.com">linkedin</a></li>
-                </ul>
+          <h2>03. projects/</h2>
+          <div class="content">
+            <div class="project-item">
+              <div class="project-header">
+                <div>
+                  <a
+                    href="https://jotacomplaint.vercel.app"
+                    class="project-link"
+                    >JotaComplaint</a
+                  >
+                  <a
+                    href="https://github.com/letbrocode/jotacomplaint"
+                    style="
+                      color: var(--dim);
+                      text-decoration: none;
+                      font-size: 0.8rem;
+                      margin-left: 0.5rem;
+                    "
+                    >[GitHub]</a
+                  >
+                </div>
+                <span style="color: var(--dim); font-size: 0.8rem"
+                  >[Real-time / RBAC]</span
+                >
+              </div>
+              <p class="project-desc">
+                Municipal complaint management platform with BullMQ background
+                jobs and Pusher WebSockets.
+              </p>
+              <p class="tags">#nextjs #postgresql #redis #docker #prisma</p>
             </div>
+
+            <div class="project-item">
+              <div class="project-header">
+                <div>
+                  <a href="https://genesage.vercel.app" class="project-link"
+                    >GeneSage</a
+                  >
+                  <a
+                    href="https://github.com/letbrocode/genesage"
+                    style="
+                      color: var(--dim);
+                      text-decoration: none;
+                      font-size: 0.8rem;
+                      margin-left: 0.5rem;
+                    "
+                    >[GitHub]</a
+                  >
+                </div>
+                <span style="color: var(--dim); font-size: 0.8rem"
+                  >[AI / Genomic]</span
+                >
+              </div>
+              <p class="project-desc">
+                Genomic variant analysis platform using NVIDIA Evo2 7B on
+                serverless GPU infrastructure.
+              </p>
+              <p class="tags">#nextjs #python #postgresql #modal</p>
+            </div>
+
+            <div class="project-item">
+              <div class="project-header">
+                <div>
+                  <a
+                    href="https://thumbnailsgen.vercel.app"
+                    class="project-link"
+                    >Thumbnails-gen</a
+                  >
+                  <a
+                    href="https://github.com/letbrocode/thumbnail-saas"
+                    style="
+                      color: var(--dim);
+                      text-decoration: none;
+                      font-size: 0.8rem;
+                      margin-left: 0.5rem;
+                    "
+                    >[GitHub]</a
+                  >
+                </div>
+                <span style="color: var(--dim); font-size: 0.8rem"
+                  >[AI / SaaS]</span
+                >
+              </div>
+              <p class="project-desc">
+                AI-powered SaaS platform for generating YouTube thumbnails with
+                background removal and Stripe payments.
+              </p>
+              <p class="tags">#nextjs #aws-s3 #prisma #stripe #nextauth</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>04. experience/</h2>
+          <div class="content">
+            <div class="project-item">
+              <div class="project-header">
+                <strong>Freelance Full-Stack Developer</strong>
+                <span style="color: var(--dim); font-size: 0.8rem"
+                  >2025 - Present</span
+                >
+              </div>
+              <p class="project-desc">
+                Building production-ready web apps with real-time systems and
+                scalable backends.
+              </p>
+            </div>
+
+            <div class="project-item">
+              <div class="project-header">
+                <strong>Prodigy InfoTech (Intern)</strong>
+                <span style="color: var(--dim); font-size: 0.8rem"
+                  >Jun - Jul 2025</span
+                >
+              </div>
+              <p class="project-desc">
+                Built a social media application with JWT auth and React Query
+                optimization.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>05. education/</h2>
+          <div class="content">
+            <div class="project-item">
+              <div class="project-header">
+                <strong>VCET (B.E. Computer Engineering)</strong>
+                <span style="color: var(--dim); font-size: 0.8rem"
+                  >2023 - Present</span
+                >
+              </div>
+            </div>
+            <div class="project-item" style="margin-top: -0.5rem">
+              <div class="project-header">
+                <strong>Vartak Polytechnic (Diploma)</strong>
+                <span style="color: var(--dim); font-size: 0.8rem"
+                  >2020 - 2023</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>06. contact/</h2>
+          <div class="content">
+            <ul class="contact-list">
+              <li>
+                <span class="prompt"></span
+                ><a href="mailto:pratikworkadd@gmail.com">email</a>
+              </li>
+              <li>
+                <span class="prompt"></span
+                ><a href="https://github.com/letbrocode">github</a>
+              </li>
+              <li>
+                <span class="prompt"></span
+                ><a href="https://www.linkedin.com/in/pratik-kamble-654207300/"
+                  >linkedin</a
+                >
+              </li>
+            </ul>
+          </div>
         </section>
 
         <footer>
-            <p>LAST_LOGIN: <span id="date"></span></p>
-            <p>Uptime: indefinite</p>
-        </section>
+          <p>LAST_LOGIN: <span id="date"></span></p>
+          <p>Uptime: indefinite</p>
+        </footer>
+      </div>
     </div>
 
     <script>
-        document.getElementById('date').innerText = new Date().toUTCString();
+      document.getElementById("date").innerText = new Date().toUTCString();
     </script>
-</body>
+  </body>
 </html>
